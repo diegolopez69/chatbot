@@ -34,6 +34,8 @@ def check_all_messages(message):
 
         response('Hola', ['hola', 'klk', 'saludos', 'buenas'], single_response = True)
         response('Estoy bien y tu?', ['como', 'estas', 'va', 'vas', 'sientes'], required_words=['como'])
+        response('Prueba presionando la tecla Windows + P, y selecciona la opcion de duplicado', ['no', 'funciona', 'no puedo', 'arreglar', 'va', 'no va', 'no veo'], required_words=['proyector'])
+        response('Verifica que el ordenador este en la red wifi correcta', ['no', 'login', 'loguear', 'no puedo'], required_words=['usuario'])
         response('Estamos ubicados en la calle 23 numero 123', ['ubicados', 'direccion', 'donde', 'ubicacion'], single_response=True)
         response('Siempre a la orden', ['gracias', 'te lo agradezco', 'thanks'], single_response=True)
 
