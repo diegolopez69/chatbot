@@ -1,10 +1,12 @@
 import re
 import random
 
+
 def get_response(user_input):
     split_message = re.split(r'\s|[,:;.?!-_]\s*', user_input.lower())
     response = check_all_messages(split_message)
     return response
+
 
 def message_probability(user_message, recognized_words, single_response=False, required_word=[]):
     message_certainty = 0
@@ -12,9 +14,9 @@ def message_probability(user_message, recognized_words, single_response=False, r
 
     for word in user_message:
         if word in recognized_words:
-            message_certainty +=1
+            message_certainty += 1
 
-    percentage = float(message_certainty) / float (len(recognized_words))
+    percentage = float(message_certainty) / float(len(recognized_words))
 
     for word in required_word:
         if word not in user_message:
@@ -25,26 +27,58 @@ def message_probability(user_message, recognized_words, single_response=False, r
     else:
         return 0
 
+
 def check_all_messages(message):
-        highest_prob = {}
+    highest_prob = {}
 
-        def response(bot_response, list_of_words, single_response = False, required_words = []):
-            nonlocal highest_prob
-            highest_prob[bot_response] = message_probability(message, list_of_words, single_response, required_words)
+    def response(bot_response, list_of_words, single_response=False, required_words=[]):
+        nonlocal highest_prob
+        highest_prob[bot_response] = message_probability(
+            message, list_of_words, single_response, required_words)
 
-        response('Hola', ['hola', 'klk', 'saludos', 'buenas'], single_response = True)
-        response('Estoy bien y tu?', ['como', 'estas', 'va', 'vas', 'sientes'], required_words=['como'])
-        response('Estamos ubicados en la calle 23 numero 123', ['ubicados', 'direccion', 'donde', 'ubicacion'], single_response=True)
-        response('Siempre a la orden', ['gracias', 'te lo agradezco', 'thanks'], single_response=True)
+    response('Hola soy Odin, el chatbot que resolverá tus problemas', [
+             'hola', 'saludos', 'buenas', 'buenos dias', 'buenas tardes', 'buenas tardes', ], single_response=True)
+    response('Presiona la tecla "Windows" + "P" y selecciona la opción de duplicado',
+             ['No', 'funciona', 'proyecto', 'no va', 'va', 'sirve', 'puedo'], required_words=['proyector'])
 
-        best_match = max(highest_prob, key=highest_prob.get)
-        #print(highest_prob)
+    # response('Verifica que el ordenador este en la red wifi correcta', [
+    #     'entrar a mi usuario', 'puedo', 'entrar', 'a mi', 'usuario'], required_words=['usuario'])
 
-        return unknown() if highest_prob[best_match] < 1 else best_match
+    # response('Verifica que el ordenador este en la red wifi correcta', [
+    #     'entrar a mi usuario', 'puedo', 'entrar', 'a mi', 'usuario'], single_response=True)
+
+    response('Verifica que el ordenador este en la red wifi correcta', [
+             'No', 'puedo', 'sirve', 'funciona', 'acceder', 'entrar', 'iniciar', 'a mi', 'usuario'], required_words=['usuario'])
+
+    response('Verifica que el ordenador este en la red wifi correcta', [
+             'No', 'puedo', 'sirve', 'funciona', 'acceder', 'entrar', 'iniciar', 'a mi', 'perfil'], required_words=['perfil'])
+
+    response('Verifica que el cable de internet este conectado al ordenador', [
+        'No hay wifi', 'wifi'], single_response=True)
+
+    response('Puedes ser más específico en que es lo que ya hiciste, por favor', [
+             'Ya lo hice', 'Lo acabo de hacer', 'ya'], single_response=True)
+
+    response('Cuentame con que necesitas ayuda', [
+        'ayuda', 'necesito ayuda', 'necesito'], single_response=True)
+
+    response('La extensión para resolver problemas es 1972', [
+        'Cual es la', 'extensión', 'extension'], single_response=True)
+
+    response('Siempre a la orden', [
+             'gracias', 'te lo agradezco', 'thanks', 'adios'], single_response=True)
+
+    best_match = max(highest_prob, key=highest_prob.get)
+    # print(highest_prob)
+
+    return unknown() if highest_prob[best_match] < 1 else best_match
+
 
 def unknown():
-    response = ['puedes decirlo de nuevo?', 'No estoy seguro de lo quieres', 'búscalo en google a ver que tal'][random.randrange(3)]
+    response = [
+        'Lo siento no comprendo tu pregunta, prueba escribiendola de otra manera'][random.randrange(1)]
     return response
 
+
 while True:
-    print("Bot: " + get_response(input('You: ')))
+    print("Odin: " + get_response(input('Tú: ')))
